@@ -139,7 +139,7 @@ class DateRangePickerWrapper extends React.Component {
     ]);
 
     return (
-      <div>
+      <form>
         <DateRangePicker
           {...props}
           onDatesChange={this.onDatesChange}
@@ -148,7 +148,8 @@ class DateRangePickerWrapper extends React.Component {
           startDate={startDate}
           endDate={endDate}
         />
-      </div>
+        <input />
+      </form>
     );
   }
 }
