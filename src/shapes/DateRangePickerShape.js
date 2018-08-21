@@ -27,8 +27,10 @@ export default {
 
   // input related props
   startDateId: PropTypes.string.isRequired,
+  startDateName: PropTypes.string,
   startDatePlaceholderText: PropTypes.string,
   endDateId: PropTypes.string.isRequired,
+  endDateName: PropTypes.string,
   endDatePlaceholderText: PropTypes.string,
   disabled: DisabledShape,
   required: PropTypes.bool,

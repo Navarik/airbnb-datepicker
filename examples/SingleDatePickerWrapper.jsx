@@ -31,6 +31,7 @@ const defaultProps = {
 
   // input related props
   id: 'date',
+  inputName: 'dateName',
   placeholder: 'Date',
   disabled: false,
   required: false,

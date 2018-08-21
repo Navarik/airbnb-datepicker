@@ -48,6 +48,7 @@ const defaultProps = {
 
   // input related props
   id: 'date',
+  inputName: null,
   placeholder: 'Date',
   disabled: false,
   required: false,
@@ -525,6 +526,7 @@ class SingleDatePicker extends React.Component {
   render() {
     const {
       id,
+      inputName,
       placeholder,
       disabled,
       focused,
@@ -561,6 +563,7 @@ class SingleDatePicker extends React.Component {
     const input = (
       <SingleDatePickerInput
         id={id}
+        inputName={inputName}
         placeholder={placeholder}
         focused={focused}
         isFocused={isInputFocused}
