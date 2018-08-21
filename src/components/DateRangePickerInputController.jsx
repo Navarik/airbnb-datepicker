@@ -145,6 +145,11 @@ export default class DateRangePickerInputController extends React.Component {
     this.onEndDateChange = this.onEndDateChange.bind(this);
     this.onEndDateFocus = this.onEndDateFocus.bind(this);
     this.clearDates = this.clearDates.bind(this);
+
+    this.state = {
+      startDateString: '',
+      endDateString: '',
+    };
   }
 
   onClearFocus() {
@@ -167,6 +172,10 @@ export default class DateRangePickerInputController extends React.Component {
       keepOpenOnDateSelect,
       onDatesChange,
     } = this.props;
+
+    // endDateString used for clearDate
+    // TODO: what if dates get reversed?
+    this.setState({ endDateString });
 
     const endDate = toMomentObject(endDateString, this.getDisplayFormat());
 
@@ -211,6 +220,10 @@ export default class DateRangePickerInputController extends React.Component {
       onFocusChange,
       disabled,
     } = this.props;
+
+    // startDateString used for clearDate
+    // TODO: what if dates get reversed?
+    this.setState({ startDateString });
 
     const startDate = toMomentObject(startDateString, this.getDisplayFormat());
     const isEndDateBeforeStartDate = startDate
@@ -257,6 +270,12 @@ export default class DateRangePickerInputController extends React.Component {
   clearDates() {
     const { onDatesChange, reopenPickerOnClearDates, onFocusChange } = this.props;
     onDatesChange({ startDate: null, endDate: null });
+
+    this.setState({
+      startDateString: '',
+      endDateString: '',
+    });
+
     if (reopenPickerOnClearDates) {
       onFocusChange(START_DATE);
     }
@@ -298,17 +317,24 @@ export default class DateRangePickerInputController extends React.Component {
       verticalSpacing,
     } = this.props;
 
-    const startDateString = this.getDateString(startDate);
-    const endDateString = this.getDateString(endDate);
+    const {
+      startDateString,
+      endDateString,
+    } = this.state;
+
+    const startDateDisplayValue = this.getDateString(startDate);
+    const endDateDisplayValue = this.getDateString(endDate);
 
     return (
       <DateRangePickerInput
-        startDate={startDateString}
+        startDate={startDateDisplayValue}
+        startDateString={startDateString}
         startDateId={startDateId}
         startDateName={startDateName}
         startDatePlaceholderText={startDatePlaceholderText}
         isStartDateFocused={isStartDateFocused}
-        endDate={endDateString}
+        endDate={endDateDisplayValue}
+        endDateString={endDateString}
         endDateId={endDateId}
         endDateName={endDateName}
         endDatePlaceholderText={endDatePlaceholderText}
