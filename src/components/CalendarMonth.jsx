@@ -336,10 +336,11 @@ export default withStyles(({ reactDates: { color, font, spacing } }) => ({
   // Year nav extras
 
   CalendarMonth_defaultMonth: {
+    fontSize: font.captionSize,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 34
+    height: 34,
   },
 
   CalendarMonth_monthNav: {
@@ -347,6 +348,9 @@ export default withStyles(({ reactDates: { color, font, spacing } }) => ({
     borderRadius: 3,
     height: 34,
     fontSize: font.captionSize,
+    marginTop: 0,
+    boxSizing: 'border-box',
+    fontWeight: 'bold',
   },
 
   CalendarMonth_monthNav_option: {

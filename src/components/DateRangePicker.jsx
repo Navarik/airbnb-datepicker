@@ -603,10 +603,10 @@ DateRangePicker.propTypes = propTypes;
 DateRangePicker.defaultProps = defaultProps;
 
 export { DateRangePicker as PureDateRangePicker };
-export default withStyles(({ reactDates: { color, zIndex } }) => ({
+export default withStyles(({ reactDates: { color, spacing, zIndex } }) => ({
   DateRangePicker: {
     position: 'relative',
-    display: 'inline-block',
+    display: spacing.dateRangePickerDisplay,
   },
 
   DateRangePicker__block: {
