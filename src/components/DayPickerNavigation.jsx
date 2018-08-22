@@ -290,8 +290,8 @@ export default withStyles(({ reactDates: { color, zIndex } }) => ({
   },
 
   DayPickerNavigation_svg__horizontal: {
-    height: 19,
-    width: 19,
+    height: 20,
+    width: 20,
     fill: color.core.grayLight,
     display: 'block',
   },

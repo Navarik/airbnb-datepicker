@@ -312,6 +312,7 @@ class CalendarMonthGrid extends React.Component {
           const hideForAnimation = i === 0 && !isVisible;
           const showForAnimation = i === 0 && isAnimating && isVisible;
           const monthString = toISOMonthString(month);
+          const showYearNav = i === (firstVisibleMonthIndex + Math.ceil(numberOfMonths / 2) - 1);
           return (
             <div
               key={monthString}
@@ -358,6 +359,7 @@ class CalendarMonthGrid extends React.Component {
                 dayAriaLabelFormat={dayAriaLabelFormat}
                 verticalBorderSpacing={verticalBorderSpacing}
                 horizontalMonthPadding={horizontalMonthPadding}
+                showYearNav={showYearNav}
               />
             </div>
           );
