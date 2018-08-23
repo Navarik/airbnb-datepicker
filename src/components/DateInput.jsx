@@ -24,8 +24,10 @@ const FANG_STROKE_BOTTOM = `M0,0 ${FANG_WIDTH_PX / 2},${FANG_HEIGHT_PX} ${FANG_W
 const propTypes = forbidExtraProps({
   ...withStylesPropTypes,
   id: PropTypes.string.isRequired,
+  inputName: PropTypes.string,
   placeholder: PropTypes.string, // also used as label
   displayValue: PropTypes.string,
+  dateString: PropTypes.string,
   screenReaderMessage: PropTypes.string,
   focused: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -51,8 +53,10 @@ const propTypes = forbidExtraProps({
 });
 
 const defaultProps = {
+  inputName: null,
   placeholder: 'Select Date',
   displayValue: '',
+  dateString: '',
   screenReaderMessage: '',
   focused: false,
   disabled: false,
@@ -97,8 +101,13 @@ class DateInput extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dateString } = this.state;
-    if (dateString && nextProps.displayValue) {
+    const {
+      dateString
+    } = this.state;
+    if (
+        (dateString && nextProps.displayValue) // actual date set
+        || (dateString !== nextProps.dateString) // clearDate
+    ) {
       this.setState({
         dateString: '',
       });
@@ -169,6 +178,7 @@ class DateInput extends React.Component {
     } = this.state;
     const {
       id,
+      inputName,
       placeholder,
       displayValue,
       screenReaderMessage,
@@ -218,7 +228,7 @@ class DateInput extends React.Component {
           aria-label={placeholder}
           type="text"
           id={id}
-          name={id}
+          name={inputName || id}
           ref={this.setInputRef}
           value={value}
           onChange={this.onChange}
@@ -299,7 +309,7 @@ export default withStyles(({
   },
 
   DateInput_input: {
-    fontWeight: 200,
+    fontWeight: font.dateInputFontWeight,
     fontSize: font.input.size,
     lineHeight: font.input.lineHeight,
     color: color.text,

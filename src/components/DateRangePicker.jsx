@@ -274,10 +274,6 @@ class DateRangePicker extends React.Component {
   }
 
   responsivizePickerPosition() {
-    // It's possible the portal props have been changed in response to window resizes
-    // So let's ensure we reset this back to the base state each time
-    this.setState({ dayPickerContainerStyles: {} });
-
     if (!this.isOpened()) {
       return;
     }
@@ -392,13 +388,14 @@ class DateRangePicker extends React.Component {
       disabled,
       theme: { reactDates },
     } = this.props;
+    const focusedDate = this.props[focusedInput];
     const { dayPickerContainerStyles, isDayPickerFocused, showKeyboardShortcuts } = this.state;
 
     const onOutsideClick = (!withFullScreenPortal && withPortal)
       ? this.onOutsideClick
       : undefined;
     const initialVisibleMonthThunk = initialVisibleMonth || (
-      () => (startDate || endDate || moment())
+      () => (focusedDate || startDate || endDate || moment())
     );
 
     const closeIcon = customCloseIcon || (
@@ -492,9 +489,11 @@ class DateRangePicker extends React.Component {
     const {
       startDate,
       startDateId,
+      startDateName,
       startDatePlaceholderText,
       endDate,
       endDateId,
+      endDateName,
       endDatePlaceholderText,
       focusedInput,
       screenReaderInputMessage,
@@ -537,10 +536,12 @@ class DateRangePicker extends React.Component {
       <DateRangePickerInputController
         startDate={startDate}
         startDateId={startDateId}
+        startDateName={startDateName}
         startDatePlaceholderText={startDatePlaceholderText}
         isStartDateFocused={focusedInput === START_DATE}
         endDate={endDate}
         endDateId={endDateId}
+        endDateName={endDateName}
         endDatePlaceholderText={endDatePlaceholderText}
         isEndDateFocused={focusedInput === END_DATE}
         displayFormat={displayFormat}
@@ -602,10 +603,10 @@ DateRangePicker.propTypes = propTypes;
 DateRangePicker.defaultProps = defaultProps;
 
 export { DateRangePicker as PureDateRangePicker };
-export default withStyles(({ reactDates: { color, zIndex } }) => ({
+export default withStyles(({ reactDates: { color, spacing, zIndex } }) => ({
   DateRangePicker: {
     position: 'relative',
-    display: 'inline-block',
+    display: spacing.dateRangePickerDisplay,
   },
 
   DateRangePicker__block: {

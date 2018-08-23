@@ -18,8 +18,10 @@ import { ICON_BEFORE_POSITION, ICON_AFTER_POSITION, OPEN_DOWN } from '../constan
 const propTypes = forbidExtraProps({
   ...withStylesPropTypes,
   id: PropTypes.string.isRequired,
+  inputName: PropTypes.string,
   placeholder: PropTypes.string, // also used as label
   displayValue: PropTypes.string,
+  dateString: PropTypes.string,
   screenReaderMessage: PropTypes.string,
   focused: PropTypes.bool,
   isFocused: PropTypes.bool, // describes actual DOM focus
@@ -53,8 +55,10 @@ const propTypes = forbidExtraProps({
 });
 
 const defaultProps = {
+  inputName: null,
   placeholder: 'Select Date',
   displayValue: '',
+  dateString: '',
   screenReaderMessage: '',
   focused: false,
   isFocused: false,
@@ -91,8 +95,10 @@ const defaultProps = {
 
 function SingleDatePickerInput({
   id,
+  inputName,
   placeholder,
   displayValue,
+  dateString,
   focused,
   isFocused,
   disabled,
@@ -162,6 +168,7 @@ function SingleDatePickerInput({
 
       <DateInput
         id={id}
+        inputName={inputName}
         placeholder={placeholder} // also used as label
         displayValue={displayValue}
         screenReaderMessage={screenReaderText}
@@ -190,7 +197,7 @@ function SingleDatePickerInput({
             styles.SingleDatePickerInput_clearDate,
             small && styles.SingleDatePickerInput_clearDate__small,
             !customCloseIcon && styles.SingleDatePickerInput_clearDate__default,
-            !displayValue && styles.SingleDatePickerInput_clearDate__hide,
+            !displayValue && !dateString && styles.SingleDatePickerInput_clearDate__hide,
           )}
           type="button"
           aria-label={phrases.clearDate}

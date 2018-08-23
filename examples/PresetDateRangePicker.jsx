@@ -46,8 +46,10 @@ const defaultProps = {
 
   // input related props
   startDateId: START_DATE,
+  startDateName: START_DATE + 'Name',
   startDatePlaceholderText: 'Start Date',
   endDateId: END_DATE,
+  endDateName: END_DATE + 'Name',
   endDatePlaceholderText: 'End Date',
   disabled: false,
   required: false,

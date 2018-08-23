@@ -48,6 +48,7 @@ const defaultProps = {
 
   // input related props
   id: 'date',
+  inputName: null,
   placeholder: 'Date',
   disabled: false,
   required: false,
@@ -127,6 +128,7 @@ class SingleDatePicker extends React.Component {
       isDayPickerFocused: false,
       isInputFocused: false,
       showKeyboardShortcuts: false,
+      dateString: '',
     };
 
     this.onDayPickerFocus = this.onDayPickerFocus.bind(this);
@@ -192,6 +194,9 @@ class SingleDatePicker extends React.Component {
       onClose,
     } = this.props;
     const newDate = toMomentObject(dateString, this.getDisplayFormat());
+
+    // dateString used for clearDate
+    this.setState({ dateString });
 
     const isValid = newDate && !isOutsideRange(newDate);
     if (isValid) {
@@ -291,6 +296,9 @@ class SingleDatePicker extends React.Component {
   clearDate() {
     const { onDateChange, reopenPickerOnClearDate, onFocusChange } = this.props;
     onDateChange(null);
+
+    this.setState({ dateString: '' });
+
     if (reopenPickerOnClearDate) {
       onFocusChange({ focused: true });
     }
@@ -309,10 +317,6 @@ class SingleDatePicker extends React.Component {
 
   /* istanbul ignore next */
   responsivizePickerPosition() {
-    // It's possible the portal props have been changed in response to window resizes
-    // So let's ensure we reset this back to the base state each time
-    this.setState({ dayPickerContainerStyles: {} });
-
     const {
       openDirection,
       anchorDirection,
@@ -525,6 +529,7 @@ class SingleDatePicker extends React.Component {
   render() {
     const {
       id,
+      inputName,
       placeholder,
       disabled,
       focused,
@@ -550,7 +555,10 @@ class SingleDatePicker extends React.Component {
       styles,
     } = this.props;
 
-    const { isInputFocused } = this.state;
+    const {
+      isInputFocused,
+      dateString,
+    } = this.state;
 
     const displayValue = this.getDateString(date);
 
@@ -561,6 +569,7 @@ class SingleDatePicker extends React.Component {
     const input = (
       <SingleDatePickerInput
         id={id}
+        inputName={inputName}
         placeholder={placeholder}
         focused={focused}
         isFocused={isInputFocused}
@@ -576,6 +585,7 @@ class SingleDatePicker extends React.Component {
         customCloseIcon={customCloseIcon}
         customInputIcon={customInputIcon}
         displayValue={displayValue}
+        dateString={dateString}
         onChange={this.onChange}
         onFocus={this.onFocus}
         onKeyDownShiftTab={this.onClearFocus}

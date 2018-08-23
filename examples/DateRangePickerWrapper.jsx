@@ -37,13 +37,15 @@ const defaultProps = {
 
   // input related props
   startDateId: START_DATE,
+  startDateName: START_DATE + 'Name',
   startDatePlaceholderText: 'Start Date',
   endDateId: END_DATE,
+  endDateName: END_DATE + 'Name',
   endDatePlaceholderText: 'End Date',
   disabled: false,
   required: false,
   screenReaderInputMessage: '',
-  showClearDates: false,
+  showClearDates: true,
   showDefaultInputIcon: false,
   customInputIcon: null,
   customArrowIcon: null,
@@ -60,7 +62,7 @@ const defaultProps = {
   withPortal: false,
   withFullScreenPortal: false,
   initialVisibleMonth: null,
-  numberOfMonths: 2,
+  numberOfMonths: 3,
   keepOpenOnDateSelect: false,
   reopenPickerOnClearDates: false,
   isRTL: false,
@@ -137,7 +139,7 @@ class DateRangePickerWrapper extends React.Component {
     ]);
 
     return (
-      <div>
+      <form>
         <DateRangePicker
           {...props}
           onDatesChange={this.onDatesChange}
@@ -146,7 +148,8 @@ class DateRangePickerWrapper extends React.Component {
           startDate={startDate}
           endDate={endDate}
         />
-      </div>
+        <input />
+      </form>
     );
   }
 }

@@ -28,6 +28,8 @@ import {
   VERTICAL_SCROLLABLE,
   DAY_SIZE,
 } from '../constants';
+import ChevronUp from "./ChevronUp";
+import ChevronDown from "./ChevronDown";
 
 const propTypes = forbidExtraProps({
   ...withStylesPropTypes,
@@ -58,6 +60,8 @@ const propTypes = forbidExtraProps({
   monthFormat: PropTypes.string,
   phrases: PropTypes.shape(getPhrasePropTypes(CalendarDayPhrases)),
   dayAriaLabelFormat: PropTypes.string,
+
+  showYearNav: PropTypes.bool,
 });
 
 const defaultProps = {
@@ -88,6 +92,8 @@ const defaultProps = {
   phrases: CalendarDayPhrases,
   dayAriaLabelFormat: undefined,
   verticalBorderSpacing: undefined,
+
+  showYearNav: false,
 };
 
 class CalendarMonth extends React.Component {
@@ -154,6 +160,57 @@ class CalendarMonth extends React.Component {
     this.captionRef = ref;
   }
 
+  maybeRenderYearNav(monthTitle) {
+    const {
+      month,
+      styles,
+      onMonthSelect,
+      onYearSelect,
+      showYearNav,
+    } = this.props;
+
+    if (!showYearNav) {
+      return CalendarMonth.defaultMonthElement(monthTitle, styles);
+    }
+
+    return this.renderYearSelector({ month, onMonthSelect, onYearSelect, styles });
+  }
+
+  static defaultMonthElement(monthTitle, styles) {
+    return (
+        <div {...css(styles.CalendarMonth_defaultMonth)}>
+          <strong>
+            {monthTitle}
+          </strong>
+        </div>
+    );
+  }
+
+  renderYearSelector({ month, onMonthSelect, onYearSelect, styles }) {
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div>
+            <select
+                value={month.month()}
+                onChange={(e) => { onMonthSelect(month, e.target.value); }}
+                {...css(styles.CalendarMonth_monthNav)}
+            >
+              {moment.months().map((label, value) => (
+                  <option key={value} value={value} {...css(styles.CalendarMonth_monthNav_option)}>{label}</option>
+              ))}
+            </select>
+          </div>
+          <div {...css(styles.CalendarMonth_yearNav_wrapper)}>
+            <strong>{month.year()}</strong>
+            <div {...css(styles.CalendarMonth_yearNav_btnWrapper)}>
+              <ChevronUp onClick={(e) => { e.preventDefault(); onYearSelect(month, month.year() + 1); }} {...css(styles.CalendarMonth_yearNav)}/>
+              <ChevronDown onClick={(e) => { e.preventDefault(); onYearSelect(month, month.year() - 1); }} {...css(styles.CalendarMonth_yearNav)}/>
+            </div>
+          </div>
+        </div>
+    )
+  }
+
   render() {
     const {
       dayAriaLabelFormat,
@@ -203,9 +260,7 @@ class CalendarMonth extends React.Component {
           {renderMonthElement ? (
             renderMonthElement({ month, onMonthSelect, onYearSelect })
           ) : (
-            <strong>
-              {monthTitle}
-            </strong>
+            this.maybeRenderYearNav(monthTitle)
           )}
         </div>
 
@@ -277,4 +332,72 @@ export default withStyles(({ reactDates: { color, font, spacing } }) => ({
     paddingTop: 12,
     paddingBottom: 7,
   },
+
+  // Year nav extras
+
+  CalendarMonth_defaultMonth: {
+    fontSize: font.captionSize,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 34,
+  },
+
+  CalendarMonth_monthNav: {
+    border: `1px solid ${color.core.borderLight}`,
+    borderRadius: 3,
+    height: 34,
+    fontSize: font.captionSize,
+    marginTop: 0,
+    boxSizing: 'border-box',
+    fontWeight: 'bold',
+  },
+
+  CalendarMonth_monthNav_option: {
+    fontSize: font.size,
+  },
+
+  CalendarMonth_yearNav_wrapper: {
+    paddingLeft: 5,
+    display: 'flex',
+    height: 34,
+    border: `1px solid ${color.core.borderLight}`,
+    borderRadius: 3,
+    fontSize: font.captionSize,
+    boxSizing: 'border-box',
+    alignItems: 'center',
+  },
+
+  CalendarMonth_yearNav_btnWrapper: {
+    display: 'inline-block',
+    height: '100%',
+    marginLeft: 3,
+    float: 'right',
+  },
+
+  CalendarMonth_yearNav: {
+    height: '50%',
+    display: 'block',
+    width: 17,
+    padding: 3,
+    fontSize: 12,
+    overflow: 'hidden',
+    backgroundColor: color.background,
+    color: color.placeholderText,
+    cursor: 'pointer',
+
+    border: `1px solid transparent`,
+    borderRadius: 3,
+
+    ':hover': {
+      border: `1px solid ${color.core.borderLight}`,
+      backgroundColor: color.core.borderLight,
+    },
+
+    ':focus': {
+      border: `1px solid ${color.core.borderLight}`,
+      backgroundColor: color.core.borderLight,
+    },
+  },
+
 }))(CalendarMonth);

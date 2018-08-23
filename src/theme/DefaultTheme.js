@@ -46,6 +46,8 @@ export default {
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 2,
+        focusedBorderColor: 'rgb(219, 219, 219)', // ie. same as color.border
+        focusedBoxShadow: 'initial',
       },
     },
 
@@ -154,7 +156,7 @@ export default {
 
     spacing: {
       dayPickerHorizontalPadding: 9,
-      captionPaddingTop: 22,
+      captionPaddingTop: 18,
       captionPaddingBottom: 37,
       inputPadding: 0,
       displayTextPaddingVertical: undefined,
@@ -169,6 +171,15 @@ export default {
       displayTextPaddingHorizontal_small: undefined,
       displayTextPaddingLeft_small: 7,
       displayTextPaddingRight_small: 7,
+      // dateRangePicker
+      calendarIconPadding: 10,
+      dateRangePickerDisplay: 'inline-block',
+      dateRangePickerInputTransition: 'initial',
+      dateRangeClearDatesPadding: 10,
+      dateRangeClearDatesHeight: 15,
+      dateRangeClearDatesWidth: 14,
+      dateRangeArrowWidth: 'initial',
+      dateRangeArrowTextAlign: 'initial',
     },
 
     sizing: {
@@ -182,6 +193,7 @@ export default {
     font: {
       size: 14,
       captionSize: 18,
+      dateInputFontWeight: 200,
       input: {
         size: 19,
         lineHeight: '24px',
